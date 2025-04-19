@@ -1,0 +1,5 @@
+body { font-family: sans-serif; padding: 2rem; }
+textarea { width: 100%; }
+img { margin: 1rem 0; }
+button { padding: 0.5rem 1rem; }
+.error { color: red; }
