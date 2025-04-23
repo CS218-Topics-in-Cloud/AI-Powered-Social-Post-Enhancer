@@ -1,6 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", () => {
-      form.classList.add("loading");
-    });
+    // Show spinner on generate
+    const tagForm = document.getElementById("tagForm");
+    const spinner = document.getElementById("spinner");
+    if (tagForm) {
+      tagForm.addEventListener("submit", () => {
+        spinner.classList.remove("hidden");
+      });
+    }
+  
+    // (Optional) disable post button after click
+    const postForm = document.getElementById("postForm");
+    if (postForm) {
+      postForm.addEventListener("submit", () => {
+        postForm.querySelector("button").disabled = true;
+      });
+    }
   });
+  
