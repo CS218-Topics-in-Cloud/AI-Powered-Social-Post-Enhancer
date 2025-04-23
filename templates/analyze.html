@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Review Tags</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <h1>Review & Post</h1>
+<head>
+  <meta charset="UTF-8">
+  <title>Review &amp; Post</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container fade-in">
+    <h1>Review &amp; Post</h1>
+
     <p>{{ text }}</p>
-    {% if img_path %}<img
-      src="{{ url_for('static', filename='uploads/' + img_path.split('/')[-1]) }}"
-      width="300"
-    />{% endif %}
-    <form action="{{ url_for('post') }}" method="post">
-      <input type="hidden" name="text" value="{{text}}" />
-      <input type="hidden" name="img_path" value="{{img_path}}" />
-      {% for t in tags %}
-      <label
-        ><input type="checkbox" name="tags" value="{{t}}" checked />
-        {{t}}</label
-      >
-      {% endfor %}
-      <br />
+    {% if img_path %}
+      <img
+        class="slide-in"
+        src="{{ url_for('static', filename='uploads/' + img_path.split('/')[-1]) }}"
+        width="300"
+        alt="Uploaded image"
+      />
+    {% endif %}
+
+    <form id="postForm" action="{{ url_for('post') }}" method="POST">
+      <input type="hidden" name="text" value="{{ text }}">
+      <input type="hidden" name="img_path" value="{{ img_path }}">
+
+      <div class="tags">
+        {% for t in tags %}
+          <label class="pop-in">
+            <input type="checkbox" name="tags" value="{{ t }}" checked> {{ t }}
+          </label>
+        {% endfor %}
+      </div>
+
       <label>
         Platform:
         <select name="platform">
           <option value="twitter">Twitter</option>
           <option value="linkedin">LinkedIn</option>
-        </select> </label
-      ><br />
-      <button type="submit">Post Now</button>
+        </select>
+      </label>
+
+      <button type="submit" class="btn">Post Now</button>
     </form>
-  </body>
+  </div>
+
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
 </html>

@@ -5,14 +5,13 @@ from transformers import pipeline
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 from urllib.parse import quote_plus
-from flask import redirect
 
 
 load_dotenv()  # reads .env for your API keys
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "supersecret")
-UPLOAD_FOLDER = "static/uploads"
+UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -95,32 +94,15 @@ def analyze():
 
 @app.route('/post', methods=['POST'])
 def post():
-    # platform = request.form['platform']
-    # text = request.form['text']
-    # img_path = request.form.get('img_path') or None
-    # tags = request.form.getlist('tags')
+    text     = request.form['text']
+    image    = request.form.get('img_path')  # still there if you want it
+    tags     = request.form.getlist('tags')
+    platform = request.form['platform']
 
-    # success = False
-    # if platform == 'twitter':
-    #     success = post_to_twitter(text, img_path, tags)
-    # else:
-    #     success = post_to_linkedin(text, img_path, tags)
-
-    # if success:
-    #     flash(f"Posted to {platform.title()}!")
-    #     return redirect(url_for('index'))
-    # else:
-    #     flash("Error posting. Check logs.", "error")
-    #     return redirect(url_for('index'))
-        text     = request.form['text']
-        image    = request.form.get('img_path')  # still there if you want it
-        tags     = request.form.getlist('tags')
-        platform = request.form['platform']
-
-        if platform == 'twitter':
-            return post_to_twitter(text, image, tags)
-        else:
-            return post_to_linkedin(text, image, tags)
+    if platform == 'twitter':
+        return post_to_twitter(text, image, tags)
+    else:
+        return post_to_linkedin(text, image, tags)
 
 
 if __name__ == '__main__':
